@@ -4,7 +4,7 @@ const app = express();
 app.get('/', (req, res) => {
   res
     .status(200)
-    .send('Hello Bilal server is running on ${PORT}')
+    .send('Hello Bilal server is running on 8080')
     .end();
 });
  
