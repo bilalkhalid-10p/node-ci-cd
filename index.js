@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const { Client } = require('pg');
 
 app.use(function (req, res, next) {
 
@@ -19,36 +20,6 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
- 
-app.get('/', (req, res) => {
-  res
-    .status(200)
-    .send('Hello Bilal server is running on 8080')
-    .end();
-});
-
-app.get('/data', function(req, res) {
-  res.json([{
-    number: 1,
-    name: 'John',
-    gender: 'male'
-  },
-    {
-      number: 2,
-      name: 'Ashley',
-      gender: 'female'
-    }
-  ]);
-});
- 
-// Start the server
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-  console.log('Press Ctrl+C to quit.');
-});
-
-const { Client } = require('pg');
 
 var connectionString = "postgres://ftopzbzlusikbd:7f967c819a8cf5bec97b50d5d3b489ab78441780f1e38f87ccd775f33d31bc5c@ec2-34-227-135-211.compute-1.amazonaws.com:5432/daibac7pl3rgn7"
 
@@ -60,24 +31,31 @@ const client = new Client({
 });
 
 client.connect();
-
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
-  client.end();
+ 
+app.get('/', (req, res) => {
+  res
+    .status(200)
+    .send('Hello Bilal server is running on 8080')
+    .end();
 });
 
-client.query(`SELECT * FROM Users;`, (err, res) => {
-  if (err) {
-    console.log("Error - Failed to select all from Users");
-    console.log(err);
-  }
-  else {
-    for (let row of res.rows) {
-      console.log(JSON.stringify(row));
+app.get('/data', function(req, res) {
+  client.query(`SELECT * FROM Users;`, (err, res) => {
+    if (err) {
+      console.log("Error - Failed to select all from Users");
+      console.log(err);
     }
-    client.end();
-  }
+    else {
+      res.json(JSON.stringify(res.rows));
+      client.end();
+    }
+  });
+
+});
+ 
+// Start the server
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
+  console.log('Press Ctrl+C to quit.');
 });
