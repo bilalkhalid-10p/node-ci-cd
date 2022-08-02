@@ -46,7 +46,7 @@ app.get('/data', function(req, res) {
       console.log(err);
     }
     else {
-      res.send(JSON.stringify(res.rows));
+      res.status(200).json(result.rows)
     }
   });
 
