@@ -40,14 +40,13 @@ app.get('/', (req, res) => {
 });
 
 app.get('/data', function(req, res) {
-  client.query(`SELECT * FROM Users;`, (err, res) => {
+  client.query(`SELECT * FROM Users;`, (err, result) => {
     if (err) {
       console.log("Error - Failed to select all from Users");
       console.log(err);
     }
     else {
-      res.json(JSON.stringify(res.rows));
-      client.end();
+      res.send(JSON.stringify(res.rows));
     }
   });
 
