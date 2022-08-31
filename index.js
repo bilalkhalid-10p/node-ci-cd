@@ -1,9 +1,6 @@
 const express = require('express');
 const app = express();
 const { Client } = require('pg');
-import cors from 'cors';
-
-app.use(cors());
 
 app.use(function (req, res, next) {
 
