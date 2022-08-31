@@ -4,8 +4,7 @@ const { Client } = require('pg');
 
 app.use(function (req, res, next) {
 
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'https://bilalkhalid-10p.github.io');
+  // Website you wish to allow to connect;
   res.setHeader('Access-Control-Allow-Origin', 'https://vue-ci-cd.herokuapp.com/');
 
   // Request methods you wish to allow
