@@ -6,6 +6,7 @@ app.use(function (req, res, next) {
 
   // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', 'https://bilalkhalid-10p.github.io');
+  res.setHeader('Access-Control-Allow-Origin', 'https://vue-ci-cd.herokuapp.com/');
 
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
