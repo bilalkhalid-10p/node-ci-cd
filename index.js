@@ -55,7 +55,7 @@ app.get('/list', function(req, res) {
   client.query(`SELECT *
                 FROM tasks Table1
                 RIGHT JOIN tasks Table2 ON Table2.parent_uuid = Table1.uuid
-                GROUP BY Table1.uuid;`, (err, result) => {
+                GROUP BY Table1.parent_uuid;`, (err, result) => {
     if (err) {
       console.log("Error - Failed to select all from Tasks");
       console.log(err);
