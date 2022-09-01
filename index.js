@@ -52,13 +52,13 @@ app.get('/data', function(req, res) {
 });
 
 app.get('/list', function(req, res) {
-  client.query(`SELECT Table1.first_name AS Employee_first_name,
-                       Table1.last_name AS Employee_last_name,
-                       Table1.id AS Manager_id,
-                       Table2.first_name AS Manager_first_name,
-                       Table2.last_name AS Manager_last_name
+  client.query(`SELECT Table2.first_name AS Manager_first_name,
+                       Table2.last_name AS Manager_last_name,
+                       Table2.id AS Manager_id,
+                       Table1.first_name AS Employee_first_name,
+                       Table1.last_name AS Employee_last_name
                 FROM Users as Table1
-                RIGHT JOIN Users as Table2 ON Table2.manager_id = Table1.id`, (err, result) => {
+                LEFT JOIN Users as Table2 ON Table2.id = Table1.manager_id`, (err, result) => {
     if (err) {
       console.log("Error - Failed to select all from Tasks");
       console.log(err);
