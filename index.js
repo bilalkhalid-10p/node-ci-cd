@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
+var cors = require('cors')
 const { Client } = require('pg');
 const bodyParser = require("body-parser");
+
+app.use(cors());
 
 app.use(function (req, res, next) {
 
@@ -12,7 +15,7 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
   // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
@@ -23,6 +26,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(bodyParser.json());
 
 var connectionString = "postgres://ftopzbzlusikbd:7f967c819a8cf5bec97b50d5d3b489ab78441780f1e38f87ccd775f33d31bc5c@ec2-34-227-135-211.compute-1.amazonaws.com:5432/daibac7pl3rgn7"
@@ -89,7 +93,8 @@ app.get('/managers', function(req, res) {
 });
 
 app.post('/create', function(req, res) {
-    res.status(200);
+    console.log(req.body);
+    res.send('BODY ==> ' + JSON.stringify(req.body));
 });
 
 
