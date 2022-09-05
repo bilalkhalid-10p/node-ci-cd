@@ -86,6 +86,10 @@ app.get('/managers', function(req, res) {
   });
 });
 
+app.post('/create', function(req, res) {
+    res.status(200).json(req)
+});
+
 
 // Start the server
 const PORT = process.env.PORT || 8081;
