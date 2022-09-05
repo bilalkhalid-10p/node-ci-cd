@@ -95,10 +95,10 @@ app.get('/managers', function(req, res) {
 app.post('/create', function(req, res) {
     // console.log([req.body.data.first_name, req.body.data.last_name, req.body.data.manager_id]);
     let data = JSON.stringify(req.body);
-    res.send(data);
+    res.send(data.data.first_name);
 
     // client.query((`INSERT INTO "users" ("first_name", "last_name", "manager_id")
-    //                   VALUES ($1, $2)`, [data.data.first_name, data.data.last_name, data.data.manager_id]), (err, result) => {
+    //                   VALUES ($1, $2, $3)`, [data.data.first_name, data.data.last_name, data.data.manager_id]), (err, result) => {
     //     if (err) {
     //         console.log("Error - Failed to insert data into Users");
     //         console.log(err);
