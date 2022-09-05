@@ -85,7 +85,7 @@ app.get('/managers', function(req, res) {
 });
 
 app.post('/create', function(req, res) {
-    res.status(200).json(req)
+    res.status(200).text('success');
 });
 
 
