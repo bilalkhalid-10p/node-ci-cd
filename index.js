@@ -93,16 +93,19 @@ app.get('/managers', function(req, res) {
 });
 
 app.post('/create', function(req, res) {
-    client.query((`INSERT INTO "users" ("first_name", "last_name", "manager_id")
-                      VALUES ($1, $2)`, [req.body.first_name, req.body.last_name, req.body.manager_id]), (err, result) => {
-        if (err) {
-            console.log("Error - Failed to insert data into Users");
-            console.log(err);
-        }
-        else {
-            res.status(200).json(result.rows)
-        }
-    });
+    console.log(req.body);
+    res.send('BODY ==> ' + JSON.stringify(req.body));
+
+    // client.query((`INSERT INTO "users" ("first_name", "last_name", "manager_id")
+    //                   VALUES ($1, $2)`, [req.body.first_name, req.body.last_name, req.body.manager_id]), (err, result) => {
+    //     if (err) {
+    //         console.log("Error - Failed to insert data into Users");
+    //         console.log(err);
+    //     }
+    //     else {
+    //         res.status(200).json(result.rows)
+    //     }
+    // });
 });
 
 
