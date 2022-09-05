@@ -58,7 +58,24 @@ app.get('/list', function(req, res) {
                     Table2.first_name AS manager_first_name,
                     Table2.last_name AS manager_last_name
                 FROM Users as Table1
-                LEFT JOIN Users as Table2 ON Table2.id = Table1.manager_id`, (err, result) => {
+                LEFT JOIN Users as Table2 ON Table2.id = Table1.manager_id
+                WHERE Table1.deleted_at IS NULL`, (err, result) => {
+    if (err) {
+      console.log("Error - Failed to select all from Tasks");
+      console.log(err);
+    }
+    else {
+      res.status(200).json(result.rows)
+    }
+  });
+});
+
+app.get('/managers', function(req, res) {
+  client.query(`SELECT Table1.first_name AS employee_first_name,
+                    Table1.last_name AS employee_last_name,
+                    Table1.id AS employee_id,
+                FROM Users as Table1
+                WHERE Table1.deleted_at IS NULL`, (err, result) => {
     if (err) {
       console.log("Error - Failed to select all from Tasks");
       console.log(err);
