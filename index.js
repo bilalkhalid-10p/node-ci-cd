@@ -9,7 +9,7 @@ app.use(cors());
 app.use(function (req, res, next) {
 
   // Website you wish to allow to connect;
-  res.setHeader('Access-Control-Allow-Origin', 'https://vue-ci-cd.herokuapp.com/');
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -108,6 +108,63 @@ app.post('/create', function(req, res) {
             res.status(200).json(result.rows)
         }
     });
+});
+
+app.post('/update', function(req, res) {
+    let user_id = req.body.data.user_id;
+    let first_name = req.body.data.first_name;
+    let last_name = req.body.data.last_name;
+    let manager_id = req.body.data.manager_id == '' ? 0 : req.body.data.manager_id;
+    let deleted_at = null;
+
+    client.query(`UPDATE users SET first_name = $1, last_name = $2, manager_id = $3, deleted_at = $4 WHERE id = $5`,
+        [first_name, last_name, manager_id, deleted_at, user_id], (err, result) => {
+            if (err) {
+                console.log("Error - Failed to update data of User");
+                console.log(err);
+            }
+            else {
+                res.status(200).json(result.rows)
+            }
+        });
+});
+
+app.delete('/delete_user/:userId', function(req, res) {
+    const id = req.params.userId;
+
+    client.query(`UPDATE users SET manager_id = 0 WHERE manager_id = $1`,
+    [id], (err, result) => {
+        if (err) {
+            console.log("Error - Failed to update manager id");
+            console.log(err);
+        }
+    });
+
+    client.query(`UPDATE users SET deleted_at = current_timestamp WHERE id = $1`,
+        [id], (err, result) => {
+            if (err) {
+                console.log("Error - Failed to update manager id");
+                console.log(err);
+            }
+        });
+
+    res.status(200).send(id);
+});
+
+app.post('/get_user', function(req, res) {
+    let userId = req.body.data.userId;
+
+    client.query(`SELECT *
+                  FROM Users
+                  WHERE id = $1`, [userId], (err, result) => {
+            if (err) {
+                console.log("Error - Failed to find user data");
+                console.log(err);
+            }
+            else {
+                res.status(200).json(result.rows)
+            }
+        });
 });
 
 
