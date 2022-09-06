@@ -9,7 +9,7 @@ app.use(cors());
 app.use(function (req, res, next) {
 
   // Website you wish to allow to connect;
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://vue-ci-cd.herokuapp.com/');
 
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -93,12 +93,13 @@ app.get('/managers', function(req, res) {
 });
 
 app.post('/create', function(req, res) {
-    // console.log([req.body.data.first_name, req.body.data.last_name, req.body.data.manager_id]);
-    // let body = JSON.stringify(req.body);
-    // res.status(200).send(req.body.data.first_name);
+    let first_name = req.body.data.first_name;
+    let last_name = req.body.data.last_name;
+    let manager_id = req.body.data.manager_id == '' ? 0 : req.body.data.manager_id;
+    let deleted_at = null;
 
-    client.query((`INSERT INTO Users ("first_name", "last_name", "manager_id")
-                      VALUES ($1, $2, $3)`, [req.body.data.first_name, req.body.data.last_name, req.body.data.manager_id]), (err, result) => {
+    client.query(`INSERT INTO users (first_name, last_name, manager_id, deleted_at) VALUES ($1, $2, $3, $4)  RETURNING *`,
+        [first_name, last_name, manager_id, deleted_at], (err, result) => {
         if (err) {
             console.log("Error - Failed to insert data into Users");
             console.log(err);
